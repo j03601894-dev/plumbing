@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>We Plumber Co-Limited | Find, Hire & Join Top Plumbers</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Header & Navigation Tabs -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <div class="brand" onclick="switchTab('hire')">
+        <div class="brand-icon"><i class="fa-solid fa-wrench"></i></div>
+        <div>
+          <span class="brand-name">We Plumber Co-Limited</span>
+          <span class="brand-tagline">Certified Plumbing Network</span>
+        </div>
+      </div>
+
+      <nav class="nav-tabs" aria-label="Primary Navigation">
+        <button class="tab-btn active" data-tab="hire" onclick="switchTab('hire')">
+          <i class="fa-solid fa-magnifying-glass"></i> Hire
+        </button>
+        <button class="tab-btn" data-tab="recruit" onclick="switchTab('recruit')">
+          <i class="fa-solid fa-user-plus"></i> Recruit
+        </button>
+        <button class="tab-btn" data-tab="help" onclick="switchTab('help')">
+          <i class="fa-solid fa-headset"></i> Help
+        </button>
+        <button class="tab-btn" data-tab="about" onclick="switchTab('about')">
+          <i class="fa-solid fa-building"></i> About Us
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section with Plumbing Background Photo -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <span class="hero-badge"><i class="fa-solid fa-shield-halved"></i> Verified & Rated Plumbers Across Kenya</span>
+      <h1>Fast, Reliable Plumbing Experts Right at Your Doorstep</h1>
+      <p>Browse our directory of vetted plumbers, inspect star ratings, view locations, and hire directly—or sign up today to join the We Plumber Co-Limited team.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="switchTab('hire')"><i class="fa-solid fa-faucet-drip"></i> Find a Plumber</button>
+        <button class="btn btn-outline" onclick="switchTab('recruit')"><i class="fa-solid fa-id-badge"></i> Register as a Plumber</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Area -->
+  <main class="container main-content">
+
+    <!-- ==================== TAB 1: HIRE (HOME PAGE) ==================== -->
+    <section id="tab-hire" class="tab-panel active">
+      <div class="section-header">
+        <div>
+          <h2>Available Plumbers (<span id="plumber-count">40</span>)</h2>
+          <p class="subtitle">Click on any plumber's photo to view full profile details, location, and leave a star rating.</p>
+        </div>
+        <div class="filter-controls">
+          <div class="search-box">
+            <i class="fa-solid fa-search"></i>
+            <input type="text" id="search-input" placeholder="Search by name, phone, or town..." oninput="filterPlumbers()" />
+          </div>
+          <select id="rating-filter" onchange="filterPlumbers()">
+            <option value="0">All Star Ratings</option>
+            <option value="5">5.0 Stars Only</option>
+            <option value="4.5">4.5+ Stars</option>
+            <option value="4">4.0+ Stars</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 40 Plumbers Grid -->
+      <div id="plumbers-grid" class="plumbers-grid"></div>
+    </section>
+
+    <!-- ==================== TAB 2: RECRUIT (SIGN UP & CREATE PROFILE) ==================== -->
+    <section id="tab-recruit" class="tab-panel">
+      <div class="recruit-wrapper">
+        <div class="recruit-banner">
+          <div class="recruit-banner-overlay"></div>
+          <div class="recruit-banner-text">
+            <h2>Join We Plumber Co-Limited</h2>
+            <p>Create your official plumber profile, upload your profile photo, and immediately appear on our home page for clients to hire.</p>
+            <ul class="recruit-perks">
+              <li><i class="fa-solid fa-circle-check"></i> Instant listing on the Hire directory</li>
+              <li><i class="fa-solid fa-circle-check"></i> Direct calls & WhatsApp leads from clients</li>
+              <li><i class="fa-solid fa-circle-check"></i> Build reputation with verified 5-star reviews</li>
+            </ul>
+          </div>
+        </div>
+
+        <form id="recruit-form" class="card-box form-card" onsubmit="handleRecruitSubmit(event)">
+          <h3><i class="fa-solid fa-user-tie"></i> Plumber Sign Up & Profile Creation</h3>
+          <p class="form-desc">Fill in your details below and upload a clear photo of yourself.</p>
+
+          <!-- Profile Picture Upload & Preview -->
+          <div class="photo-upload-group">
+            <div class="avatar-preview" id="avatar-preview">
+              <img id="preview-img" src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=300&q=80" alt="Profile Preview" />
+            </div>
+            <div class="upload-controls">
+              <label for="plumber-photo" class="btn btn-secondary">
+                <i class="fa-solid fa-camera"></i> Upload Profile Picture
+              </label>
+              <input type="file" id="plumber-photo" accept="image/*" onchange="previewProfilePhoto(event)" />
+              <small>JPG, PNG or WEBP. Your photo will be displayed on the home page.</small>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="plumber-name">Full Name *</label>
+              <input type="text" id="plumber-name" required placeholder="e.g. Samuel Mwangi" />
+            </div>
+            <div class="form-group">
+              <label for="plumber-phone">Phone / WhatsApp Number *</label>
+              <input type="tel" id="plumber-phone" required placeholder="e.g. 0712345678" />
+            </div>
+            <div class="form-group">
+              <label for="plumber-location">Location / Area of Operation *</label>
+              <input type="text" id="plumber-location" required placeholder="e.g. Westlands, Nairobi" />
+            </div>
+            <div class="form-group">
+              <label for="plumber-specialty">Primary Specialty *</label>
+              <select id="plumber-specialty" required>
+                <option value="General Plumbing & Pipe Repair">General Plumbing & Pipe Repair</option>
+                <option value="Bathroom & Kitchen Installations">Bathroom & Kitchen Installations</option>
+                <option value="Drainage & Sewer Unblocking">Drainage & Sewer Unblocking</option>
+                <option value="Water Heater & Solar Systems">Water Heater & Solar Systems</option>
+                <option value="Commercial & Industrial Piping">Commercial & Industrial Piping</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="plumber-experience">Years of Experience *</label>
+              <input type="number" id="plumber-experience" min="1" max="50" value="3" required />
+            </div>
+            <div class="form-group">
+              <label for="plumber-password">Create Account Password *</label>
+              <input type="password" id="plumber-password" required placeholder="Create a secure password" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="plumber-bio">Short Bio & Services Offered</label>
+            <textarea id="plumber-bio" rows="3" placeholder="Tell clients about your plumbing skills, availability, and tools..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">
+            <i class="fa-solid fa-check-circle"></i> Create Profile & Publish to Home Page
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: HELP (CALL / SMS / WHATSAPP 0702227559) ==================== -->
+    <section id="tab-help" class="tab-panel">
+      <div class="help-hero-card">
+        <div class="help-bg-overlay"></div>
+        <div class="help-content">
+          <span class="badge-light"><i class="fa-solid fa-clock"></i> 24/7 Emergency Support Desk</span>
+          <h2>Need Urgent Plumbing Help?</h2>
+          <p>Contact <strong>We Plumber Co-Limited</strong> directly via phone call, SMS message, or WhatsApp on our official hotline below.</p>
+
+          <div class="hotline-box">
+            <span class="hotline-label">Official Support & Dispatch Number</span>
+            <div class="hotline-number">0702227559</div>
+          </div>
+
+          <div class="contact-action-buttons">
+            <a href="tel:0702227559" class="btn btn-call">
+              <i class="fa-solid fa-phone-volume"></i> Call 0702227559
+            </a>
+            <a href="sms:0702227559?body=Hello%20We%20Plumber%20Co-Limited,%20I%20need%20plumbing%20assistance." class="btn btn-sms">
+              <i class="fa-solid fa-comment-sms"></i> Message / SMS
+            </a>
+            <a href="https://wa.me/254702227559?text=Hello%20We%20Plumber%20Co-Limited,%20I%20would%20like%20to%20hire%20a%20plumber." target="_blank" rel="noopener" class="btn btn-whatsapp">
+              <i class="fa-brands fa-whatsapp"></i> WhatsApp Us
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Direct Message Composer -->
+      <div class="card-box quick-help-form">
+        <h3><i class="fa-brands fa-whatsapp text-green"></i> Send a Quick Message to 0702227559</h3>
+        <p>Describe your plumbing issue and send it straight to our WhatsApp dispatch desk.</p>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="help-client-name">Your Name</label>
+            <input type="text" id="help-client-name" placeholder="Enter your name" />
+          </div>
+          <div class="form-group">
+            <label for="help-client-location">Your Location</label>
+            <input type="text" id="help-client-location" placeholder="e.g. Kilimani, Nairobi" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="help-issue">Describe the Plumbing Issue</label>
+          <textarea id="help-issue" rows="3" placeholder="e.g. Burst kitchen pipe, blocked drain, water heater repair..."></textarea>
+        </div>
+        <button class="btn btn-whatsapp" onclick="sendQuickWhatsApp()">
+          <i class="fa-brands fa-whatsapp"></i> Send via WhatsApp to 0702227559
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: ABOUT US ==================== -->
+    <section id="tab-about" class="tab-panel">
+      <div class="about-banner">
+        <div class="about-banner-overlay"></div>
+        <div class="about-banner-content">
+          <h2>About We Plumber Co-Limited</h2>
+          <p>Connecting homeowners, landlords, and businesses with skilled, trustworthy plumbers across the country.</p>
+        </div>
+      </div>
+
+      <div class="about-grid">
+        <div class="card-box">
+          <div class="icon-circle"><i class="fa-solid fa-bullseye"></i></div>
+          <h3>Our Mission</h3>
+          <p>We Plumber Co-Limited was founded by a working plumber to make finding reliable plumbing professionals effortless. Every technician on our platform has direct contact visibility and transparent client star ratings.</p>
+        </div>
+        <div class="card-box">
+          <div class="icon-circle"><i class="fa-solid fa-star"></i></div>
+          <h3>Transparent Star Ratings</h3>
+          <p>Clients rate plumbers after every job using our 5-star rating system. High-rated plumbers rise to the top, ensuring quality workmanship and honest pricing on every callout.</p>
+        </div>
+        <div class="card-box">
+          <div class="icon-circle"><i class="fa-solid fa-handshake"></i></div>
+          <h3>Empowering Plumbers</h3>
+          <p>Through our Recruit portal, independent plumbers can create a professional profile, upload their photo, and receive direct job calls without middleman delays.</p>
+        </div>
+      </div>
+
+      <div class="card-box services-strip">
+        <h3>Core Plumbing Services Covered</h3>
+        <div class="services-tags">
+          <span><i class="fa-solid fa-wrench"></i> Leak Detection & Pipe Repairs</span>
+          <span><i class="fa-solid fa-toilet"></i> Bathroom & Toilet Installations</span>
+          <span><i class="fa-solid fa-sink"></i> Kitchen Sinks & Taps</span>
+          <span><i class="fa-solid fa-water"></i> Water Tanks & Booster Pumps</span>
+          <span><i class="fa-solid fa-fire-burner"></i> Instant Showers & Solar Heaters</span>
+          <span><i class="fa-solid fa-industry"></i> Commercial Drainage Systems</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== PLUMBER DETAILS & RATING MODAL ==================== -->
+  <div id="plumber-modal" class="modal" onclick="closeModalOnOutside(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close modal">&times;</button>
+
+      <div class="modal-header">
+        <img id="modal-photo" src="" alt="Plumber Photo" class="modal-avatar" />
+        <div class="modal-title-area">
+          <span class="verified-pill"><i class="fa-solid fa-circle-check"></i> Verified Plumber</span>
+          <h2 id="modal-name">Plumber Name</h2>
+          <p id="modal-specialty" class="modal-specialty">Specialty</p>
+          <div id="modal-stars-display" class="stars-row large"></div>
+        </div>
+      </div>
+
+      <div class="modal-details-grid">
+        <div class="detail-item">
+          <i class="fa-solid fa-phone"></i>
+          <div>
+            <small>Phone Number</small>
+            <strong id="modal-phone">0700000000</strong>
+          </div>
+        </div>
+        <div class="detail-item">
+          <i class="fa-solid fa-location-dot"></i>
+          <div>
+            <small>Location</small>
+            <strong id="modal-location">Nairobi</strong>
+          </div>
+        </div>
+        <div class="detail-item">
+          <i class="fa-solid fa-briefcase"></i>
+          <div>
+            <small>Experience</small>
+            <strong id="modal-experience">5 Years</strong>
+          </div>
+        </div>
+        <div class="detail-item">
+          <i class="fa-solid fa-star"></i>
+          <div>
+            <small>Client Rating</small>
+            <strong id="modal-rating-text">4.9 / 5.0 (24 reviews)</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-bio">
+        <h4>About This Plumber</h4>
+        <p id="modal-bio-text"></p>
+      </div>
+
+      <!-- Interactive Star Rating Box -->
+      <div class="rate-box">
+        <h4>Rate This Plumber</h4>
+        <p>Click a star below to submit your rating:</p>
+        <div class="interactive-stars" id="interactive-stars">
+          <i class="fa-solid fa-star" data-value="1" onclick="rateCurrentPlumber(1)"></i>
+          <i class="fa-solid fa-star" data-value="2" onclick="rateCurrentPlumber(2)"></i>
+          <i class="fa-solid fa-star" data-value="3" onclick="rateCurrentPlumber(3)"></i>
+          <i class="fa-solid fa-star" data-value="4" onclick="rateCurrentPlumber(4)"></i>
+          <i class="fa-solid fa-star" data-value="5" onclick="rateCurrentPlumber(5)"></i>
+        </div>
+        <span id="rating-feedback" class="rating-feedback"></span>
+      </div>
+
+      <!-- Direct Hire Buttons -->
+      <div class="modal-actions">
+        <a id="modal-call-btn" href="#" class="btn btn-primary">
+          <i class="fa-solid fa-phone"></i> Call Plumber
+        </a>
+        <a id="modal-wa-btn" href="#" target="_blank" rel="noopener" class="btn btn-whatsapp">
+          <i class="fa-brands fa-whatsapp"></i> Hire via WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div>
+        <strong>We Plumber Co-Limited</strong>
+        <p>Trusted Plumbing Directory & Recruitment Platform</p>
+      </div>
+      <div class="footer-links">
+        <a href="tel:0702227559"><i class="fa-solid fa-phone"></i> Help Line: 0702227559</a>
+        <a href="https://wa.me/254702227559" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp Support</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic & 40 Plumbers Data -->
+  <script>
+    const plumberPortraits = [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1552058544-f2b08422138a?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1548372290-8d01b6c8e78c?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=500&q=80"
+    ];
+
+    const plumbersData = [
+      { id: 1, name: "David Kamau", phone: "0712458901", location: "Westlands, Nairobi", rating: 4.9, reviews: 42, experience: 8, specialty: "General Plumbing & Pipe Repair", bio: "Certified master plumber specializing in residential leak repairs, PPR piping, and emergency burst pipe response." },
+      { id: 2, name: "Brian Ochieng", phone: "0723981102", location: "Kilimani, Nairobi", rating: 4.8, reviews: 36, experience: 6, specialty: "Bathroom & Kitchen Installations", bio: "Expert in modern bathroom fittings, concealed cisterns, mixer showers, and luxury kitchen sink setups." },
+      { id: 3, name: "Peter Njoroge", phone: "0734112203", location: "Thika Road, Nairobi", rating: 5.0, reviews: 51, experience: 11, specialty: "Water Heater & Solar Systems", bio: "Specialist in solar water heating systems, instant shower wiring/plumbing, and pressure booster pumps." },
+      { id: 4, name: "Grace Wanjiku", phone: "0701556604", location: "Karen, Nairobi", rating: 4.9, reviews: 29, experience: 7, specialty: "Bathroom & Kitchen Installations", bio: "Detail-oriented residential plumber delivering neat, leak-free sanitary ware and kitchen installations." },
+      { id: 5, name: "Kevin Mutua", phone: "0715778805", location: "Syokimau, Machakos", rating: 4.7, reviews: 22, experience: 5, specialty: "Drainage & Sewer Unblocking", bio: "Fast response for blocked sinks, main sewer lines, septic connections, and rainwater harvesting systems." },
+      { id: 6, name: "Samuel Kiprop", phone: "0726889906", location: "Eldoret Town, Uasin Gishu", rating: 4.8, reviews: 31, experience: 9, specialty: "Commercial & Industrial Piping", bio: "Experienced in apartment block plumbing, rooftop water tank manifolds, and high-pressure pump stations." },
+      { id: 7, name: "James Otieno", phone: "0740123407", location: "Milimani, Kisumu", rating: 4.6, reviews: 19, experience: 5, specialty: "General Plumbing & Pipe Repair", bio: "Reliable everyday plumber available for tap replacements, toilet repairs, and underground pipe leaks." },
+      { id: 8, name: "Mercy Chebet", phone: "0791234508", location: "Nakuru East, Nakuru", rating: 4.9, reviews: 38, experience: 6, specialty: "Water Heater & Solar Systems", bio: "Skilled technician in pressurized solar geysers, thermostat replacements, and whole-house filtration." },
+      { id: 9, name: "Daniel Mwangi", phone: "0718345609", location: "Kasarani, Nairobi", rating: 4.5, reviews: 17, experience: 4, specialty: "General Plumbing & Pipe Repair", bio: "Affordable and prompt plumbing repairs across Kasarani, Roysambu, and Zimmerman." },
+      { id: 10, name: "Joseph Wekesa", phone: "0729456710", location: "Bungoma Town, Bungoma", rating: 4.7, reviews: 24, experience: 8, specialty: "Drainage & Sewer Unblocking", bio: "Specialist in storm drainage design, biodigester piping, and domestic water supply lines." },
+      { id: 11, name: "Anthony Kariuki", phone: "0704567811", location: "Ruiru, Kiambu", rating: 4.9, reviews: 45, experience: 10, specialty: "Commercial & Industrial Piping", bio: "Full-service plumbing contractor for new residential builds, apartments, and commercial kitchens." },
+      { id: 12, name: "Faith Njeri", phone: "0713678912", location: "Lavington, Nairobi", rating: 5.0, reviews: 33, experience: 7, specialty: "Bathroom & Kitchen Installations", bio: "Trusted by homeowners for spotless bathtub, jacuzzi, and modern floating vanity installations." },
+      { id: 13, name: "Dennis Barasa", phone: "0724789013", location: "Kakamega Town, Kakamega", rating: 4.6, reviews: 15, experience: 4, specialty: "General Plumbing & Pipe Repair", bio: "Quick turnaround on leaking valves, overhead tank ball valves, and kitchen sink traps." },
+      { id: 14, name: "Pauline Achieng", phone: "0735890114", location: "Nyali, Mombasa", rating: 4.8, reviews: 28, experience: 6, specialty: "Water Heater & Solar Systems", bio: "Coastal plumbing specialist handling corrosion-resistant PPR piping and solar water heaters." },
+      { id: 15, name: "Victor Koech", phone: "0746901215", location: "Kericho Town, Kericho", rating: 4.7, reviews: 21, experience: 6, specialty: "General Plumbing & Pipe Repair", bio: "Dependable plumber offering 24/7 emergency callouts for burst pipes and water pump failures." },
+      { id: 16, name: "Stephen Githae", phone: "0757012316", location: "Nyeri Town, Nyeri", rating: 4.9, reviews: 34, experience: 9, specialty: "Water Heater & Solar Systems", bio: "Expert in gravity-fed and pumped water systems, roof tanks, and instant hot water showers." },
+      { id: 17, name: "Michael Omondi", phone: "0768123417", location: "South B, Nairobi", rating: 4.4, reviews: 14, experience: 3, specialty: "Drainage & Sewer Unblocking", bio: "Fast drain clearing, manhole cleaning, and kitchen grease trap maintenance." },
+      { id: 18, name: "Esther Muthoni", phone: "0779234518", location: "Thika Town, Kiambu", rating: 4.8, reviews: 27, experience: 5, specialty: "Bathroom & Kitchen Installations", bio: "Clean, reliable bathroom remodeling and modern sanitary fixture upgrades." },
+      { id: 19, name: "Collins Simiyu", phone: "0780345619", location: "Kitale, Trans Nzoia", rating: 4.6, reviews: 18, experience: 5, specialty: "General Plumbing & Pipe Repair", bio: "Experienced in borehole tank connections, farm piping, and residential plumbing repairs." },
+      { id: 20, name: "George Ndungu", phone: "0791456720", location: "Ngong Road, Nairobi", rating: 5.0, reviews: 49, experience: 12, specialty: "Commercial & Industrial Piping", bio: "Senior licensed plumber with over a decade of experience in complex multi-story piping." },
+      { id: 21, name: "Patrick Musyoka", phone: "0702567821", location: "Kitengela, Kajiado", rating: 4.7, reviews: 25, experience: 6, specialty: "General Plumbing & Pipe Repair", bio: "Serving Kitengela estates with reliable tank installations, booster pumps, and leak fixes." },
+      { id: 22, name: "Lilian Jepchirchir", phone: "0713678922", location: "Nanyuki, Laikipia", rating: 4.9, reviews: 30, experience: 7, specialty: "Water Heater & Solar Systems", bio: "Specialist in cold-weather pipe insulation, solar thermal systems, and luxury lodges." },
+      { id: 23, name: "Francis Wambua", phone: "0724789023", location: "Machakos Town, Machakos", rating: 4.5, reviews: 16, experience: 4, specialty: "Drainage & Sewer Unblocking", bio: "Thorough drainage diagnostics, pipe rerouting, and outdoor tap installations." },
+      { id: 24, name: "Harrison Maina", phone: "0735890124", location: "Rongai, Kajiado", rating: 4.8, reviews: 32, experience: 8, specialty: "General Plumbing & Pipe Repair", bio: "Prompt and honest service for leaking toilets, broken shower heads, and water meters." },
+      { id: 25, name: "Beatrice Nyambura", phone: "0746901225", location: "Kiambu Town, Kiambu", rating: 4.9, reviews: 37, experience: 7, specialty: "Bathroom & Kitchen Installations", bio: "Precision installation of kitchen mixers, dishwashers, washing machines, and vanity units." },
+      { id: 26, name: "Simon Karanja", phone: "0757012326", location: "Naivasha, Nakuru", rating: 4.7, reviews: 20, experience: 6, specialty: "Commercial & Industrial Piping", bio: "Hotel, resort, and residential plumbing maintenance across Naivasha and Gilgil." },
+      { id: 27, name: "erick Onyango", phone: "0768123427", location: "Embakasi, Nairobi", rating: 4.6, reviews: 23, experience: 5, specialty: "General Plumbing & Pipe Repair", bio: "Quick emergency response for apartment leaks, clogged floor traps, and valve replacements." },
+      { id: 28, name: "Janet Mwikali", phone: "0779234528", location: "Athi River, Machakos", rating: 4.8, reviews: 26, experience: 6, specialty: "Water Heater & Solar Systems", bio: "Certified installer of electric water heaters, automatic pump controllers, and roof tanks." },
+      { id: 29, name: "Charles Kimani", phone: "0780345629", location: "Limuru, Kiambu", rating: 4.7, reviews: 19, experience: 7, specialty: "General Plumbing & Pipe Repair", bio: "Dedicated local plumber for residential homes, greenhouses, and water storage setups." },
+      { id: 30, name: "Robert Oduor", phone: "0791456730", location: "Bamburi, Mombasa", rating: 4.9, reviews: 41, experience: 10, specialty: "Drainage & Sewer Unblocking", bio: "Expert in high-pressure drain jetting, greywater systems, and coastal home plumbing." },
+      { id: 31, name: "nicholas Langat", phone: "0702567831", location: "Bomet Town, Bomet", rating: 4.6, reviews: 14, experience: 4, specialty: "General Plumbing & Pipe Repair", bio: "Reliable rural and urban plumbing services including gravity water lines and tank stands." },
+      { id: 32, name: "Agnes Wairimu", phone: "0713678932", location: "Kikuyu, Kiambu", rating: 5.0, reviews: 39, experience: 8, specialty: "Bathroom & Kitchen Installations", bio: "Top-rated specialist in modern bathroom makeovers, rain showers, and concealed valves." },
+      { id: 33, name: "Kennedy Mutiso", phone: "0724789033", location: "Donholm, Nairobi", rating: 4.5, reviews: 18, experience: 5, specialty: "General Plumbing & Pipe Repair", bio: "Fast same-day fixes for dripping faucets, running toilets, and blocked kitchen drains." },
+      { id: 34, name: "Martin Kipkemboi", phone: "0735890134", location: "Kapsabet, Nandi", rating: 4.7, reviews: 21, experience: 6, specialty: "Water Heater & Solar Systems", bio: "Experienced in solar geyser servicing, pressure switches, and clean domestic piping." },
+      { id: 35, name: "Rose Akinyi", phone: "0746901235", location: "Homa Bay Town, Homa Bay", rating: 4.8, reviews: 24, experience: 6, specialty: "General Plumbing & Pipe Repair", bio: "Trusted community plumber for homes, schools, and clinics around Homa Bay." },
+      { id: 36, name: "Alex Gitau", phone: "0757012336", location: "Juja, Kiambu", rating: 4.9, reviews: 35, experience: 8, specialty: "Commercial & Industrial Piping", bio: "Specializing in student hostel plumbing, high-capacity water tanks, and pump automation." },
+      { id: 37, name: "Fredrick Wafula", phone: "0768123437", location: "Malindi, Kilifi", rating: 4.7, reviews: 22, experience: 7, specialty: "Bathroom & Kitchen Installations", bio: "Villa and apartment plumbing specialist skilled in swimming pool piping and outdoor showers." },
+      { id: 38, name: "Catherine Nduta", phone: "0779234538", location: "Murang'a Town, Murang'a", rating: 4.8, reviews: 27, experience: 6, specialty: "General Plumbing & Pipe Repair", bio: "Neat and dependable plumbing solutions for new homes and existing property renovations." },
+      { id: 39, name: "Bernard Cheruiyot", phone: "0780345639", location: "Narok Town, Narok", rating: 4.6, reviews: 16, experience: 5, specialty: "Drainage & Sewer Unblocking", bio: "Quick drainage repairs, septic tank piping, and water storage installations." },
+      { id: 40, name: "Paul Mbugua", phone: "0791456740", location: "CBD / Parklands, Nairobi", rating: 4.9, reviews: 47, experience: 11, specialty: "Commercial & Industrial Piping", bio: "24/7 commercial and residential emergency plumber with full diagnostic and pipe-welding gear." }
+    ].map((p, index) => ({
+      ...p,
+      name: p.name.charAt(0).toUpperCase() + p.name.slice(1),
+      photo: plumberPortraits[index % plumberPortraits.length]
+    }));
+
+    let currentModalPlumberId = null;
+    let uploadedPhotoDataUrl = null;
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabName);
+      });
+      document.querySelectorAll('.tab-panel').forEach(panel => {
+        panel.classList.toggle('active', panel.id === `tab-${tabName}`);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function generateStarsHTML(rating) {
+      let stars = '';
+      for (let i = 1; i <= 5; i++) {
+        if (rating >= i) {
+          stars += '<i class="fa-solid fa-star"></i>';
+        } else if (rating >= i - 0.5) {
+          stars += '<i class="fa-solid fa-star-half-stroke"></i>';
+        } else {
+          stars += '<i class="fa-regular fa-star"></i>';
+        }
+      }
+      return stars;
+    }
+
+    function renderPlumbers(list) {
+      const grid = document.getElementById('plumbers-grid');
+      const countEl = document.getElementById('plumber-count');
+      countEl.textContent = list.length;
+
+      if (list.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-faucet"></i>
+            <h3>No plumbers match your search</h3>
+            <p>Try clearing the search box or lowering the star rating filter.</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = list.map(plumber => `
+        <article class="plumber-card">
+          <div class="plumber-photo-wrap" onclick="openPlumberModal(${plumber.id})" title="Click to view ${plumber.name}'s full profile">
+            <img src="${plumber.photo}" alt="${plumber.name}" loading="lazy" />
+            <span class="photo-hint"><i class="fa-solid fa-eye"></i> View Info</span>
+          </div>
+          <div class="plumber-card-body">
+            <h3 class="plumber-name" onclick="openPlumberModal(${plumber.id})">${plumber.name}</h3>
+            <p class="plumber-contact">
+              <i class="fa-solid fa-phone"></i> <a href="tel:${plumber.phone}">${plumber.phone}</a>
+            </p>
+            <div class="plumber-rating" onclick="openPlumberModal(${plumber.id})" title="Click to rate ${plumber.name}">
+              <span class="stars-row">${generateStarsHTML(plumber.rating)}</span>
+              <span class="rating-score">${plumber.rating.toFixed(1)} (${plumber.reviews})</span>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function filterPlumbers() {
+      const query = document.getElementById('search-input').value.trim().toLowerCase();
+      const minRating = parseFloat(document.getElementById('rating-filter').value);
+
+      const filtered = plumbersData.filter(p => {
+        const matchesQuery =
+          p.name.toLowerCase().includes(query) ||
+          p.phone.toLowerCase().includes(query) ||
+          p.location.toLowerCase().includes(query) ||
+          p.specialty.toLowerCase().includes(query);
+        const matchesRating = p.rating >= minRating;
+        return matchesQuery && matchesRating;
+      });
+
+      renderPlumbers(filtered);
+    }
+
+    function openPlumberModal(id) {
+      const plumber = plumbersData.find(p => p.id === id);
+      if (!plumber) return;
+
+      currentModalPlumberId = id;
+      document.getElementById('modal-photo').src = plumber.photo;
+      document.getElementById('modal-name').textContent = plumber.name;
+      document.getElementById('modal-specialty').textContent = plumber.specialty;
+      document.getElementById('modal-phone').textContent = plumber.phone;
+      document.getElementById('modal-location').textContent = plumber.location;
+      document.getElementById('modal-experience').textContent = `${plumber.experience} Years`;
+      document.getElementById('modal-bio-text').textContent = plumber.bio;
+      document.getElementById('modal-stars-display').innerHTML = generateStarsHTML(plumber.rating);
+      document.getElementById('modal-rating-text').textContent = `${plumber.rating.toFixed(1)} / 5.0 (${plumber.reviews} reviews)`;
+
+      document.getElementById('modal-call-btn').href = `tel:${plumber.phone}`;
+      const waDigits = plumber.phone.startsWith('0') ? '254' + plumber.phone.slice(1) : plumber.phone;
+      const waText = encodeURIComponent(`Hello ${plumber.name}, I found your profile on We Plumber Co-Limited and would like to hire you.`);
+      document.getElementById('modal-wa-btn').href = `https://wa.me/${waDigits}?text=${waText}`;
+
+      document.getElementById('rating-feedback').textContent = '';
+      document.querySelectorAll('#interactive-stars i').forEach(star => star.classList.remove('selected'));
+
+      document.getElementById('plumber-modal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('plumber-modal').classList.remove('open');
+      currentModalPlumberId = null;
+    }
+
+    function closeModalOnOutside(event) {
+      if (event.target.id === 'plumber-modal') {
+        closeModal();
+      }
+    }
+
+    function rateCurrentPlumber(stars) {
+      const plumber = plumbersData.find(p => p.id === currentModalPlumberId);
+      if (!plumber) return;
+
+      const totalScore = plumber.rating * plumber.reviews + stars;
+      plumber.reviews += 1;
+      plumber.rating = Math.round((totalScore / plumber.reviews) * 10) / 10;
+
+      document.querySelectorAll('#interactive-stars i').forEach(star => {
+        const val = parseInt(star.dataset.value, 10);
+        star.classList.toggle('selected', val <= stars);
+      });
+
+      document.getElementById('modal-stars-display').innerHTML = generateStarsHTML(plumber.rating);
+      document.getElementById('modal-rating-text').textContent = `${plumber.rating.toFixed(1)} / 5.0 (${plumber.reviews} reviews)`;
+      document.getElementById('rating-feedback').textContent = `Thank you! You rated ${plumber.name} ${stars} star${stars > 1 ? 's' : ''}.`;
+
+      filterPlumbers();
+      showToast(`Rated ${plumber.name} ${stars}/5 stars!`);
+    }
+
+    function previewProfilePhoto(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        uploadedPhotoDataUrl = e.target.result;
+        document.getElementById('preview-img').src = uploadedPhotoDataUrl;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleRecruitSubmit(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('plumber-name').value.trim();
+      const phone = document.getElementById('plumber-phone').value.trim();
+      const location = document.getElementById('plumber-location').value.trim();
+      const specialty = document.getElementById('plumber-specialty').value;
+      const experience = parseInt(document.getElementById('plumber-experience').value, 10) || 1;
+      const bio = document.getElementById('plumber-bio').value.trim() ||
+        `Certified plumber based in ${location}, specializing in ${specialty}. Available for immediate hire.`;
+
+      const newPlumber = {
+        id: Date.now(),
+        name,
+        phone,
+        location,
+        specialty,
+        experience,
+        bio,
+        rating: 5.0,
+        reviews: 1,
+        photo: uploadedPhotoDataUrl || "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=500&q=80"
+      };
+
+      plumbersData.unshift(newPlumber);
+
+      document.getElementById('recruit-form').reset();
+      uploadedPhotoDataUrl = null;
+      document.getElementById('preview-img').src = "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=300&q=80";
+
+      switchTab('hire');
+      filterPlumbers();
+      showToast(`Welcome ${name}! Your plumber profile is now live on the home page.`);
+    }
+
+    function sendQuickWhatsApp() {
+      const name = document.getElementById('help-client-name').value.trim() || 'A Client';
+      const location = document.getElementById('help-client-location').value.trim() || 'Not specified';
+      const issue = document.getElementById('help-issue').value.trim() || 'General plumbing assistance needed';
+
+      const msg = encodeURIComponent(
+        `Hello We Plumber Co-Limited,\nName: ${name}\nLocation: ${location}\nIssue: ${issue}`
+      );
+      window.open(`https://wa.me/254702227559?text=${msg}`, '_blank', 'noopener');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+
+    renderPlumbers(plumbersData);
+  </script>
+</body>
+</html>
